@@ -127,14 +127,14 @@ ORDER BY p.Name;
 SELECT DISTINCT p.Color
 FROM Production.Product p
 WHERE p.Color is not NULL
-ORDER BY p.Color DESC
+ORDER BY p.Color DESC;
 
 -- 15. Write a query that retrieves the unique combination of columns ProductSubcategoryID and Color from the Production.Product table. Format and sort so the result set accordingly to the following. We do not want any rows that are NULL.in any of the two columns in the result.
 
 SELECT DISTINCT p.Color, p.ProductSubcategoryID
 FROM Production.Product p
 WHERE p.Color is not NULL and p.ProductSubcategoryID is not NULL
-ORDER BY p.Color 
+ORDER BY p.Color, p.ProductSubcategoryID;
 
 
 -- 16. Something is “wrong” with the WHERE clause in the following query. 
