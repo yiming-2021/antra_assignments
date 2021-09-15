@@ -52,7 +52,7 @@ WHERE p.Color is not NULL;
 --NAME: Chainring Bolts  --  COLOR: Silver
 --NAME: Chainring Nut  --  COLOR: Silver
 --NAME: Chainring  --  COLOR: Black
---    ………
+--    â€¦â€¦â€¦
 
 SELECT CONCAT('Name: ',p.Name, '  --  COLOR: ', p.Color) AS 'Name and Color'
 FROM Production.Product p
@@ -106,7 +106,7 @@ ORDER BY p.Name;
 --AWC Logo Cap                                       8,99
 --Seat Lug                                           0,00
 --Seat Post                                          0,00
---               ………
+--               â€¦â€¦â€¦
 
 SELECT p.Name, p.ListPrice
 FROM Production.Product p
@@ -137,7 +137,7 @@ WHERE p.Color is not NULL and p.ProductSubcategoryID is not NULL
 ORDER BY p.Color 
 
 
--- 16. Something is “wrong” with the WHERE clause in the following query. 
+-- 16. Something is â€œwrongâ€ with the WHERE clause in the following query. 
 --We do not want any Red or Black products from any SubCategory than those with the value of 1 in column ProductSubCategoryID, unless they cost between 1000 and 2000.
  
 --Note:
@@ -157,7 +157,7 @@ SELECT ProductSubCategoryID
       , LEFT([Name],35) AS [Name]
       , Color, ListPrice 
 FROM Production.Product
---WHERE NOT (Color in ('Red','Black') AND ProductSubCategoryID = 1 AND (ListPrice > 2000 OR ListPrice < 1000))
+WHERE NOT (Color in ('Red','Black') AND ProductSubCategoryID = 1 AND (ListPrice > 2000 OR ListPrice < 1000))
 ORDER BY ProductSubCategoryID;
  
  
