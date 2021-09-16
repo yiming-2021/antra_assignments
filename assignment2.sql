@@ -252,7 +252,7 @@
 
 	select concat(e1.FirstName, ' ', e1.LastName) Employee1Name, concat(e2.FirstName,' ', e2.LastName) Employee2Name
 	from Employees e1, Employees e2
-	where e1.Title = e2.Title and concat(e1.FirstName, ' ', e1.LastName) != concat(e2.FirstName,' ', e2.LastName) 
+	where e1.Title = e2.Title and e1.EmployeeID < e2.EmployeeID
 
 
 	--26. Display all the Managers who have more than 2 employees reporting to them.
@@ -271,11 +271,11 @@
 	--Contact Name,
 	--Type (Customer or Supplier)
 
-	select c.City, c.ContactName, 'Customer'  as Type
+	select c.City, c.CompanyName Name, c.ContactName, 'Customer'  as Type
 	from Customers c
 	UNION
-	select c.City, c.ContactName, 'Supplier' as Type
-	from Suppliers c
+	select s.City, s.CompanyName Name, s.ContactName, 'Supplier' as Type
+	from Suppliers s
 
 
 	-- 28. Have two tables T1 and T2
