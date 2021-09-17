@@ -70,11 +70,26 @@ go
 
 	--5. List all Customer Cities that have at least two customers.
 		--a. Use union
+		select c.city
+		from Customers c
+		group by c.City
+		having count(c.customerid) > 2
+		UNION
+		select c.city
+		from Customers c
+		group by c.City
+		having count(c.customerid) = 2
+
 		--b. Use sub-query and no union
+		select t.city
+		from (select c.City,count(c.CustomerID) total from Customers c
+		group by c.City) t
+		where total >= 2
+
+		-- There is actually no need to use union or subquery:
 		select c.City from Customers c
 		group by c.City
 		having count(c.customerid) >= 2
-		-- There is no need to use union or subquery.
 
 	--6. List all Customer Cities that have ordered at least two different kinds of products.
 		-- if the question means cities from which at least 2 kinds of products are ordered:
