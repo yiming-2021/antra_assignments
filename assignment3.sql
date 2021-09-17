@@ -16,7 +16,7 @@
 	--5. What is Identity column? How does DELETE and TRUNCATE affect it?
 		-- Identity column is an integer column whose values are automatically generated from a system-defined sequence. DELETE statement does not reset the identity column but TRANCATE does.
 
-	--6. What is difference between “delete from table_name” and “truncate table table_name”?
+	--6. What is difference between â€œdelete from table_nameâ€ and â€œtruncate table table_nameâ€?
 		-- DELETE statement removes records one at a time, but TRUNCATE statement removes all rows in a table by deallocating the pages that are used to store the table data.
 
 
@@ -93,7 +93,7 @@ go
 		(select o.customerid from Orders o, [Order Details] od where o.OrderID = od.OrderID group by o.CustomerID having count(distinct od.ProductID) >=2)
 
 
-	--7. List all Customers who have ordered products, but have the ‘ship city’ on the order different from their own customer cities.
+	--7. List all Customers who have ordered products, but have the â€˜ship cityâ€™ on the order different from their own customer cities.
 		select distinct c.ContactName
 		from Orders o
 		left join Customers c
@@ -208,7 +208,7 @@ go
 		order by count(e.empid) desc
 
 	--14. Find top 3 employees (salary based) in every department. Result should have deptname, empid, salary sorted by deptname and then employee with high to low salary.
-		select d.deptid Department, e1.empid Employee, e1.Salary Salary
+		select d.deptname Department, e1.empid Employee, e1.Salary Salary
 		from Employee  e1
 		join Dept d
 		on e1.deptid = d.deptid
