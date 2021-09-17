@@ -213,9 +213,26 @@ go
 		join Dept d
 		on e1.deptid = d.deptid
 		where 3 > (
-           select COUNT(DISTINCT Salary)
-           from Employee e2
-           where e2.Salary > e1.Salary
-           and e1.deptid = e2.deptid
+		   select COUNT(DISTINCT Salary)
+		   from Employee e2
+		   where e2.Salary > e1.Salary
+		   and e1.deptid = e2.deptid
           )
 		order by Department, Salary desc;
+		
+		-- another solution:
+		
+		with CTEsalary as
+		(
+		 select e.empid ,
+			d.deptname ,
+			e.Salary ,
+			DENSE_RANK() OVER(PARTITION BY d.deptid Order By  e.Salary desc) as rank
+		 from Employee e inner join Dept d
+		 ON e.deptid = d.deptid
+		)
+		select deptname as Department,
+		empid ,
+		salary as Salary from CTEsalary
+		where rank <=3
+		order by deptname;
