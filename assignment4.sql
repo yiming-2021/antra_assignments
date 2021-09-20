@@ -41,34 +41,34 @@
 
 	select * from Region
 	--1. Lock tables Region, Territories, EmployeeTerritories and Employees. Insert following information into the database. In case of an error, no changes should be made to DB.
-		--a. A new region called ìMiddle Earthî;
+		--a. A new region called ‚ÄúMiddle Earth‚Äù;
 		LOCK TABLE Region IN EXCLUSIVE MODE;
 		insert Region values(5, 'Middle Earth');
 
-		--b. A new territory called ìGondorî, belongs to region ìMiddle Earthî;
+		--b. A new territory called ‚ÄúGondor‚Äù, belongs to region ‚ÄúMiddle Earth‚Äù;
 		--select * from EmployeeTerritories
 		--select * from Territories
 		insert Territories values ('99999', 'Gondor',5);
 
-		--c. A new employee ìAragorn Kingî who's territory is ìGondorî.
+		--c. A new employee ‚ÄúAragorn King‚Äù who's territory is ‚ÄúGondor‚Äù.
 		select * from EmployeeTerritories
 		insert Employees(LastName, FirstName,Region) values ('Aragorn','King','Middle Earth')
 		insert EmployeeTerritories values(10,99999)
 
 
 
-	--2. Change territory ìGondorî to ìArnorî.
+	--2. Change territory ‚ÄúGondor‚Äù to ‚ÄúArnor‚Äù.
 		update Territories 
 		set TerritoryDescription = 'Arnor'
 		where TerritoryDescription = 'Gondor'
 
 
-	--3. Delete Region ìMiddle Earthî. (tip: remove referenced data first) (Caution: do not forget WHERE or you will delete everything.) In case of an error, no changes should be made to DB. Unlock the tables mentioned in question 1.
+	--3. Delete Region ‚ÄúMiddle Earth‚Äù. (tip: remove referenced data first) (Caution: do not forget WHERE or you will delete everything.) In case of an error, no changes should be made to DB. Unlock the tables mentioned in question 1.
 		delete from Region 
 		where RegionDescription = 'Middle Earth';
 	
 	
-	--4. Create a view named ìview_product_order_[your_last_name]î, list all products and total ordered quantity for that product.
+	--4. Create a view named ‚Äúview_product_order_[your_last_name]‚Äù, list all products and total ordered quantity for that product.
 		create view view_product_order_gu 
 		AS
 		select p.ProductID, sum(od.Quantity) totalOrdered
@@ -77,7 +77,7 @@
 		on p.ProductID = od.ProductID
 		group by p.ProductID;
 		
-	--5. Create a stored procedure ìsp_product_order_quantity_[your_last_name]î that accept product id as an input and total quantities of order as output parameter.
+	--5. Create a stored procedure ‚Äúsp_product_order_quantity_[your_last_name]‚Äù that accept product id as an input and total quantities of order as output parameter.
 		CREATE PROCEDURE sp_product_order_quantity_gu
 		@Productid int
 		as
@@ -89,7 +89,7 @@
 		EXEC sp_product_order_quantity_gu @Productid = 1;
 
 
-	--6. Create a stored procedure ìsp_product_order_city_[your_last_name]î that accept product name as an input and top 5 cities that ordered most that product combined with the total quantity of that product ordered from that city as output.
+	--6. Create a stored procedure ‚Äúsp_product_order_city_[your_last_name]‚Äù that accept product name as an input and top 5 cities that ordered most that product combined with the total quantity of that product ordered from that city as output.
 		CREATE PROCEDURE sp_product_order_city_gu
 		@ProductName nvarchar(40)
 		as
@@ -107,7 +107,7 @@
 		EXEC sp_product_order_city_gu @ProductName = 'Chang';
 
 		
-	--7. Lock tables Region, Territories, EmployeeTerritories and Employees. Create a stored procedure ìsp_move_employees_[your_last_name]î that automatically find all employees in territory ìToryî; if more than 0 found, insert a new territory ìStevens Pointî of region ìNorthî to the database, and then move those employees to ìStevens Pointî.
+	--7. Lock tables Region, Territories, EmployeeTerritories and Employees. Create a stored procedure ‚Äúsp_move_employees_[your_last_name]‚Äù that automatically find all employees in territory ‚ÄúTory‚Äù; if more than 0 found, insert a new territory ‚ÄúStevens Point‚Äù of region ‚ÄúNorth‚Äù to the database, and then move those employees to ‚ÄúStevens Point‚Äù.
 		CREATE PROCEDURE sp_move_employees_gu
 		as
 		BEGIN
@@ -124,7 +124,7 @@
 				SET TerritoryID = 99998
 				WHERE EmployeeID in (select  et.EmployeeID
 			from EmployeeTerritories et, Territories t
-			where t.TerritoryDescription = 'Tory' and et.TerritoryID = t.TerritoryID)
+			where t.TerritoryDescription = 'Troy' and et.TerritoryID = t.TerritoryID)
 			--end
 			--else begin
 			--	return @torynum
@@ -134,15 +134,69 @@
 
 	
 	
-	--8. Create a trigger that when there are more than 100 employees in territory ìStevens Pointî, move them back to Troy. (After test your code,) remove the trigger. Move those employees back to ìTroyî, if any. Unlock the tables.
+	--8. Create a trigger that when there are more than 100 employees in territory ‚ÄúStevens Point‚Äù, move them back to Troy. (After test your code,) remove the trigger. Move those employees back to ‚ÄúTroy‚Äù, if any. Unlock the tables.
+		create trigger triggerMove 
+		after insert 
+		on 
+		EmployeeTerritories
+		for each row
+		UPDATE EmployeeTerritories
+		SET TerritoryID = 99998
 
 
-	--9. Create 2 new tables ìpeople_your_last_nameî ìcity_your_last_nameî. City table has two records: {Id:1, City: Seattle}, {Id:2, City: Green Bay}. People has three records: {id:1, Name: Aaron Rodgers, City: 2}, {id:2, Name: Russell Wilson, City:1}, {Id: 3, Name: Jody Nelson, City:2}. Remove city of Seattle. If there was anyone from Seattle, put them into a new city ìMadisonî. Create a view ìPackers_your_nameî lists all people from Green Bay. If any error occurred, no changes should be made to DB. (after test) Drop both tables and view.
-	
-	--10.  Create a stored procedure ìsp_birthday_employees_[you_last_name]î that creates a new table ìbirthday_employees_your_last_nameî and fill it with all employees that have a birthday on Feb. (Make a screen shot) drop the table. Employee table should not be affected.
-	
-	--11. Create a stored procedure named ìsp_your_last_name_1î that returns all cites that have at least 2 customers who have bought no or only one kind of product. Create a stored procedure named ìsp_your_last_name_2î that returns the same but using a different approach. (sub-query and no-sub-query).
 
+	--9. Create 2 new tables ‚Äúpeople_your_last_name‚Äù ‚Äúcity_your_last_name‚Äù. City table has two records: {Id:1, City: Seattle}, {Id:2, City: Green Bay}. People has three records: {id:1, Name: Aaron Rodgers, City: 2}, {id:2, Name: Russell Wilson, City:1}, {Id: 3, Name: Jody Nelson, City:2}. Remove city of Seattle. If there was anyone from Seattle, put them into a new city ‚ÄúMadison‚Äù. Create a view ‚ÄúPackers_your_name‚Äù lists all people from Green Bay. If any error occurred, no changes should be made to DB. (after test) Drop both tables and view.
+		create table ##people_gu (id int, Name nvarchar(20), City int)
+		insert ##people_gu values (1, 'Aaron Rodgers',2)
+		insert ##people_gu values (2, 'Russell Wilson',1)
+		insert ##people_gu values (3, 'Jody Nelson',2)
+
+		create table ##city_gu (id int, City nvarchar(20))
+		insert ##city_gu values (1, 'Seattle')
+		insert ##city_gu values (2, 'Green Bay')
+		
+		DELETE FROM ##city_gu WHERE City = 'Seattle'
+		insert ##city_gu values (3, 'Madison')
+		UPDATE ##people_gu
+		set city = 3
+		where city = 1
+
+		select * from ##city_gu
+		select * from ##people_gu
+
+
+		create view ##Packers_Yiming
+		as 
+		select name 
+		from ##people_gu p,  ##city_gu c
+		where p.City = c.id and c.City = 'Green Bay'
+
+
+
+		
+	--10.  Create a stored procedure ‚Äúsp_birthday_employees_[you_last_name]‚Äù that creates a new table ‚Äúbirthday_employees_your_last_name‚Äù and fill it with all employees that have a birthday on Feb. (Make a screen shot) drop the table. Employee table should not be affected.
+		create procedure sp_birthday_employees_gu
+		as 
+			create table birthday_employees_your_last_name 
+			as
+			select *
+			from Employees
+			where MONTH(BirthDate) = 2
+
+
+	--11. Create a stored procedure named ‚Äúsp_your_last_name_1‚Äù that returns all cites that have at least 2 customers who have bought no or only one kind of product. Create a stored procedure named ‚Äúsp_your_last_name_2‚Äù that returns the same but using a different approach. (sub-query and no-sub-query).
+		create procedure sp_your_gu_1
+		as
+		select City
+		from Customers
+		where CustomerID in (
+			select o.CustomerID
+			from Orders o, [Order Details] od
+			where o.OrderID = od.OrderID
+			group by o.CustomerID
+			having count(distinct od.ProductID) <= 1)
+		group by city
+		having count(CustomerID) >= 2
 
 
 	--12. How do you make sure two tables have the same data?
