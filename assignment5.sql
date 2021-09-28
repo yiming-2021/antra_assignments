@@ -11,16 +11,16 @@
 		-- Clustered and non-clustered index.
 
 	--4. Does SQL Server automatically create indexes when a table is created? If yes, under which constraints?
-		-- Yes, clustered index will be created 
+		-- Yes, clustered index will be created by primary key constriant, non-clustered by UNIQUE. 
 
 	--5. Can a table have multiple clustered index? Why?
-		-- No. Because by the definition of clusered index, the order of the clustered index is the physical order, so we can only sort the data by one column. 
+		-- No. Because by the definition of clusered index, the order of the clustered index is the physical order, so we can only sort the data by one column. And similarly, only one PK is allowed in a table.
 
 	--6. Can an index be created on multiple columns? If yes, is the order of columns matter?
 		-- Yes. The order of the column matter.
 		
 	--7. Can indexes be created on views?
-		-- No.
+		-- Yes. But only on views which have the same owner as the referenced table or tables.
 
 	--8. What is normalization? What are the steps (normal forms) to achieve normalization?
 		-- In brief, normalization is a way of organizing the data in the database. Normalization entails organizing the columns and tables of a database to ensure that their dependencies are properly enforced by database integrity constraints.
@@ -47,12 +47,13 @@
 		--one table can have multiple UNIQUE constraints, but only one PRIMARY KEY constraint
 		--PRIMARY KEY will sort the data in ascending order by default but UNIQUE will not sort
 		--PRIMARY KEY will by default create clustered index but UNIQUE key creates non clustered index
-		--PRIMARY KEY can be referred by another column but unique key can not be referred
 
 	--13. What is foreign key?
 		-- A foreign key is a column in one table, that refers to the PRIMARY KEY in another table. 
+	
 	--14. Can a table have multiple foreign keys?
 		-- Yes.
+		
 	--15. Does a foreign key have to be unique? Can it be null?
 		-- No. Yes.
 
@@ -61,7 +62,9 @@
 
 	--17. What is Transaction? What types of transaction levels are there in SQL Server?
 		-- A transaction is a logical unit of work that contains one or more SQL statements, begining with the first executable SQL statement and ending when it is committed or rolled back.
-
+		-- Read Uncommitted, Read Committed, Repeatable Read, Serializable, Snapshot
+		
+		
 --Write queries for following scenarios
 	-- 1. Write an sql statement that will display the name of each customer and the sum of order totals placed by that customer during the year 2002
 		Create table customer(cust_id int,  iname varchar (50)) 
@@ -72,16 +75,16 @@
 		where c.cust_id = o.cust_id and year(o.order_date) = 2002
 
 
-	-- 2.  The following table is used to store information about companyís personnel:
+	-- 2.  The following table is used to store information about company‚Äôs personnel:
 		Create table person (id int, firstname varchar(100), lastname varchar(100)) 
-		-- write a query that returns all employees whose last names  start with ìAî.
+		-- write a query that returns all employees whose last names  start with ‚ÄúA‚Äù.
 
 		select id, firstname, lastname from person p 
 		where lastname like 'A%'
 
-	--3.  The information about companyís personnel is stored in the following table:
+	--3.  The information about company‚Äôs personnel is stored in the following table:
 		Create table person2(person_id int primary key, manager_id int null, name varchar(100)not null) 
-		--The filed managed_id contains the person_id of the employeeís manager.
+		--The filed managed_id contains the person_id of the employee‚Äôs manager.
 		--Please write a query that would return the names of all top managers(an employee who does not have  a manger, and the number of people that report directly to this manager.
 		select m.person_id, count(p.person_id)
 		from person2 p,
