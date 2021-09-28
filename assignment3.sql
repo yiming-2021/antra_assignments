@@ -1,6 +1,6 @@
 --Answer following questions
 	--1. In SQL Server, assuming you can find the result by using both joins and subqueries, which one would you prefer to use and why?
-		-- In general, join is preferred and runs faster than subqueries in most cases. Because for using join, the RDBMS would create an excution plan on what data to load a process, but for subqueries, all the data would be loaded and processed.
+		-- In general, join is preferred and runs faster than subqueries in most cases. Because for using join, the RDBMS would create an excution plan on what data to load and process, but for subqueries, all the data would be loaded and processed.
 		
 	--2. What is CTE and when to use it?
 		-- CTE stands for Common Table Expression which is a temporary named result set that you can reference within a SELECT, INSERT, UPDATE, or DELETE statement. It is used when we want to reference a derived table multiple times in a single query or performing the same calculation multiple times over across multiple query components.
